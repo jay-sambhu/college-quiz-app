@@ -1,0 +1,119 @@
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3000/api';
+
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Add request interceptor to add auth token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for error handling
+api.interceptors.response.use(
+  (response) => {
+    // Log successful responses in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('API Response:', {
+        url: response.config.url,
+        method: response.config.method,
+        status: response.status,
+        data: response.data
+      });
+    }
+
+    // Check if the response indicates an error
+    if (response.data && response.data.success === false) {
+      return Promise.reject({
+        response: {
+          data: response.data
+        }
+      });
+    }
+
+    return response;
+  },
+  (error) => {
+    // Log errors in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API Error:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message
+      });
+    }
+
+    // Handle token expiration
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+
+    // Ensure error has a consistent structure
+    const errorResponse = {
+      response: {
+        data: {
+          success: false,
+          message: error.response?.data?.message || error.message || 'An error occurred'
+        }
+      }
+    };
+
+    return Promise.reject(errorResponse);
+  }
+);
+
+// Auth endpoints
+export const apiLogin = (credentials) => api.post('/auth/login', credentials);
+export const apiRegister = (userData) => api.post('/auth/register', userData);
+export const apiLogout = () => {
+  localStorage.removeItem('token');
+  return Promise.resolve();
+};
+
+// User endpoints
+export const apiGetUser = () => api.get('/users/me');
+export const apiUpdateUser = (data) => api.put('/users/me', data);
+
+// Quiz endpoints
+export const apiGetQuizzes = () => api.get('/quizzes');
+export const apiGetQuiz = (id) => api.get(`/quizzes/${id}`);
+export const apiCreateQuiz = (data) => api.post('/quizzes', data);
+export const apiUpdateQuiz = (id, data) => api.put(`/quizzes/${id}`, data);
+export const apiDeleteQuiz = (id) => api.delete(`/quizzes/${id}`);
+
+// Submission endpoints
+export const apiSubmitQuiz = (quizId, answers) => 
+  api.post(`/quizzes/${quizId}/submit`, { answers });
+export const apiGetSubmissions = () => api.get('/submissions');
+export const apiGetSubmission = (id) => api.get(`/submissions/${id}`);
+
+// Note endpoints
+export const apiGetNotes = () => api.get('/notes');
+export const apiGetNote = (id) => api.get(`/notes/${id}`);
+export const apiCreateNote = (data) => api.post('/notes', data);
+export const apiUpdateNote = (id, data) => api.put(`/notes/${id}`, data);
+export const apiDeleteNote = (id) => api.delete(`/notes/${id}`);
+export const apiShareNote = (id, studentId) => 
+  api.post(`/notes/${id}/share`, { studentId });
+export const apiUnshareNote = (id, studentId) => 
+  api.post(`/notes/${id}/unshare`, { studentId });
+
+export default api; 
