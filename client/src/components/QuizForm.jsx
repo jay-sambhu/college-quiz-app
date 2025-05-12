@@ -115,4 +115,4 @@ const QuizForm = ({ initialValues, onSubmit, submitting }) => (
   </Formik>
 );
 
-export default QuizForm; 
+export default QuizForm;
