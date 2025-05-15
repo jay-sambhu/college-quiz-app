@@ -16,7 +16,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import { getTeacherNotes, getStudentNotes, deleteNote } from '../../services/api';
+import { getTeacherNotes, getStudentNotes, apiDeleteNote as deleteNote } from '../../services/api';
 
 const NotesList = () => {
   const navigate = useNavigate();
@@ -113,4 +113,4 @@ const NotesList = () => {
   );
 };
 
-export default NotesList; 
+export default NotesList;

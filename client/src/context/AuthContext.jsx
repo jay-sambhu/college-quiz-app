@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import {
-  login as apiLogin,
-  register as apiRegister,
+  apiLogin,
+  apiRegister,
   getCurrentUser,
   updateProfile as apiUpdateProfile,
   changePassword as apiChangePassword

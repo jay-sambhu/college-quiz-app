@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
-import { createNote } from '../../services/api';
+import { apiCreateNote as createNote } from '../../services/api';
 
 const NoteCreate = () => {
   const navigate = useNavigate();
@@ -92,4 +92,4 @@ const NoteCreate = () => {
   );
 };
 
-export default NoteCreate; 
+export default NoteCreate;

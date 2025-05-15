@@ -14,7 +14,7 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import { getTeacherNote, getStudentNote, deleteNote } from '../../services/api';
+import { getTeacherNote, getStudentNote, apiDeleteNote as deleteNote } from '../../services/api';
 
 const NoteView = () => {
   const navigate = useNavigate();
@@ -99,4 +99,4 @@ const NoteView = () => {
   );
 };
 
-export default NoteView; 
+export default NoteView;

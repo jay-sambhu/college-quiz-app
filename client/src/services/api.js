@@ -116,4 +116,115 @@ export const apiShareNote = (id, studentId) =>
 export const apiUnshareNote = (id, studentId) => 
   api.post(`/notes/${id}/unshare`, { studentId });
 
-export default api; 
+// Add missing endpoints for student dashboard
+export const getAvailableQuizzes = () => api.get('/quizzes/available');
+export const getMyQuizResults = (quizId) => api.get(`/quizzes/${quizId}/my-result`);
+export const getLoginStreak = () => api.get('/users/login-streak');
+export const getLoginHistory = () => api.get('/users/login-history');
+
+// Add changePassword function
+export const changePassword = (currentPassword, newPassword) => {
+  return api.post('/auth/change-password', { currentPassword, newPassword });
+};
+
+// Add getCurrentUser function
+export const getCurrentUser = () => {
+  return api.get('/auth/me');
+};
+
+// Add updateProfile function
+export const updateProfile = (profileData) => {
+  return api.put('/auth/update-profile', profileData);
+};
+
+// Add getAllQuizzes function
+export const getAllQuizzes = () => {
+  return api.get('/quizzes');
+};
+
+// Add getAllUsers function
+export const getAllUsers = () => {
+  return api.get('/users');
+};
+
+// Add getTeacherQuizzes function
+export const getTeacherQuizzes = (teacherId) => {
+  return api.get(`/teachers/${teacherId}/quizzes`);
+};
+
+// Add getTeacherNotes function
+export const getTeacherNotes = (teacherId) => {
+  return api.get(`/teachers/${teacherId}/notes`);
+};
+
+// Add getMySubjects function
+export const getMySubjects = () => {
+  return api.get('/subjects/my');
+};
+
+// Add createQuiz function
+export const createQuiz = (quizData) => {
+  return api.post('/quizzes', quizData);
+};
+
+// Add getTeacherQuiz function
+export const getTeacherQuiz = (teacherId, quizId) => {
+  return api.get(`/teachers/${teacherId}/quizzes/${quizId}`);
+};
+
+// Add updateQuiz function
+export const updateQuiz = (quizId, quizData) => {
+  return api.put(`/quizzes/${quizId}`, quizData);
+};
+
+// Add submitQuiz function
+export const submitQuiz = (quizId, answers) => {
+  return api.post(`/quizzes/${quizId}/submit`, { answers });
+};
+
+// Add getStudentQuiz function
+export const getStudentQuiz = (quizId) => {
+  return api.get(`/quizzes/${quizId}/student`);
+};
+
+// Add getQuizResults function
+export const getQuizResults = (quizId) => {
+  return api.get(`/quizzes/${quizId}/results`);
+};
+
+// Add getStudentNotes function
+export const getStudentNotes = () => {
+  return api.get('/notes/student');
+};
+
+// Add getStudentNote function
+export const getStudentNote = (noteId) => {
+  return api.get(`/notes/student/${noteId}`);
+};
+
+// Add getTeacherNote function
+export const getTeacherNote = (noteId) => {
+  return api.get(`/teachers/notes/${noteId}`);
+};
+
+// Add getLeaderboard function
+export const getLeaderboard = () => {
+  return api.get('/leaderboard');
+};
+
+// Add getTeachers function
+export const getTeachers = () => {
+  return api.get('/teachers');
+};
+
+// Add submitFeedback function
+export const submitFeedback = (feedbackData) => {
+  return api.post('/feedback', feedbackData);
+};
+
+// Add getProfile function
+export const getProfile = () => {
+  return api.get('/profile');
+};
+
+export default api;
