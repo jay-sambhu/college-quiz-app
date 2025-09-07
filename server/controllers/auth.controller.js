@@ -11,7 +11,7 @@ class AuthController {
       if (!username || !email || !password) {
         return res.status(400).json({
           success: false,
-          message: 'Username, email, and password are required'
+          message: 'Username, email, and password are required',
         });
       }
 
@@ -22,15 +22,15 @@ class AuthController {
         password,
         role: role || 'student',
         firstName,
-        lastName
+        lastName,
       });
 
       // Generate JWT token
       const token = jwt.sign(
-        { 
-          id: user.id, 
+        {
+          id: user.id,
           role: user.role,
-          email: user.email
+          email: user.email,
         },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
@@ -41,30 +41,33 @@ class AuthController {
         message: 'User registered successfully',
         data: {
           user,
-          token
-        }
+          token,
+        },
       });
     } catch (error) {
       console.error('Registration error:', error);
-      
+
       // Handle specific error types
       if (error.message.includes('Validation failed')) {
         return res.status(400).json({
           success: false,
-          message: error.message
+          message: error.message,
         });
       }
 
-      if (error.message.includes('already exists') || error.message.includes('already taken')) {
+      if (
+        error.message.includes('already exists') ||
+        error.message.includes('already taken')
+      ) {
         return res.status(409).json({
           success: false,
-          message: error.message
+          message: error.message,
         });
       }
 
       res.status(500).json({
         success: false,
-        message: 'Error registering user'
+        message: 'Error registering user',
       });
     }
   }
@@ -77,7 +80,7 @@ class AuthController {
       if (!email || !password) {
         return res.status(400).json({
           success: false,
-          message: 'Email and password are required'
+          message: 'Email and password are required',
         });
       }
 
@@ -86,7 +89,7 @@ class AuthController {
       if (!user) {
         return res.status(401).json({
           success: false,
-          message: 'Invalid email or password'
+          message: 'Invalid email or password',
         });
       }
 
@@ -94,25 +97,28 @@ class AuthController {
       if (!user.is_active) {
         return res.status(403).json({
           success: false,
-          message: 'Account is deactivated. Please contact support.'
+          message: 'Account is deactivated. Please contact support.',
         });
       }
 
       // Verify password
-      const isValidPassword = await User.verifyPassword(password, user.password);
+      const isValidPassword = await User.verifyPassword(
+        password,
+        user.password
+      );
       if (!isValidPassword) {
         return res.status(401).json({
           success: false,
-          message: 'Invalid email or password'
+          message: 'Invalid email or password',
         });
       }
 
       // Generate JWT token
       const token = jwt.sign(
-        { 
+        {
           id: user.id,
           role: user.role,
-          email: user.email
+          email: user.email,
         },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
@@ -126,14 +132,14 @@ class AuthController {
         message: 'Login successful',
         data: {
           user: userWithoutPassword,
-          token
-        }
+          token,
+        },
       });
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({
         success: false,
-        message: 'Error during login'
+        message: 'Error during login',
       });
     }
   }
@@ -142,13 +148,13 @@ class AuthController {
     try {
       const userId = req.user.id;
       console.log('📝 Fetching current user data:', { userId });
-      
+
       const user = await User.findById(userId);
       if (!user) {
         console.error('❌ User not found:', userId);
         return res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'User not found',
         });
       }
 
@@ -156,23 +162,23 @@ class AuthController {
       if (!user.is_active) {
         return res.status(403).json({
           success: false,
-          message: 'Account is deactivated. Please contact support.'
+          message: 'Account is deactivated. Please contact support.',
         });
       }
-      
+
       // Remove password from user object
       const { password, ...userWithoutPassword } = user;
-      
+
       console.log('✅ User data retrieved successfully');
       res.json({
         success: true,
-        data: userWithoutPassword
+        data: userWithoutPassword,
       });
     } catch (error) {
       console.error('❌ Error fetching user:', error);
       res.status(500).json({
         success: false,
-        message: 'Error fetching user data'
+        message: 'Error fetching user data',
       });
     }
   }
@@ -186,15 +192,15 @@ class AuthController {
       if (Object.keys(fields).length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'No fields provided for update'
+          message: 'No fields provided for update',
         });
       }
-      
+
       const updated = await User.updateProfile(userId, fields);
       if (!updated) {
         return res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'User not found',
         });
       }
 
@@ -204,29 +210,29 @@ class AuthController {
       res.json({
         success: true,
         message: 'Profile updated successfully',
-        data: userWithoutPassword
+        data: userWithoutPassword,
       });
     } catch (error) {
       console.error('Profile update error:', error);
-      
+
       // Handle specific error types
       if (error.message.includes('Validation failed')) {
         return res.status(400).json({
           success: false,
-          message: error.message
+          message: error.message,
         });
       }
 
       if (error.message.includes('already taken')) {
         return res.status(409).json({
           success: false,
-          message: error.message
+          message: error.message,
         });
       }
 
       res.status(500).json({
         success: false,
-        message: 'Error updating profile'
+        message: 'Error updating profile',
       });
     }
   }
@@ -239,14 +245,14 @@ class AuthController {
       if (!oldPassword || !newPassword) {
         return res.status(400).json({
           success: false,
-          message: 'Old password and new password are required'
+          message: 'Old password and new password are required',
         });
       }
 
       if (newPassword.length < 6) {
         return res.status(400).json({
           success: false,
-          message: 'New password must be at least 6 characters long'
+          message: 'New password must be at least 6 characters long',
         });
       }
 
@@ -254,7 +260,7 @@ class AuthController {
       if (!user) {
         return res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'User not found',
         });
       }
 
@@ -262,28 +268,28 @@ class AuthController {
       if (!valid) {
         return res.status(400).json({
           success: false,
-          message: 'Old password is incorrect'
+          message: 'Old password is incorrect',
         });
       }
 
       const hashed = await bcrypt.hash(newPassword, 10);
-      await User.update(userId, { 
+      await User.update(userId, {
         password: hashed,
-        updated_at: new Date()
+        updated_at: new Date(),
       });
 
       res.json({
         success: true,
-        message: 'Password changed successfully'
+        message: 'Password changed successfully',
       });
     } catch (error) {
       console.error('Password change error:', error);
       res.status(500).json({
         success: false,
-        message: 'Error changing password'
+        message: 'Error changing password',
       });
     }
   }
 }
 
-module.exports = new AuthController(); 
+module.exports = new AuthController();

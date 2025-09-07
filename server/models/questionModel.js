@@ -14,5 +14,5 @@ async function findByQuizId(quizId) {
 }
 
 module.exports = {
-  findByQuizId
-}; 
+  findByQuizId,
+};

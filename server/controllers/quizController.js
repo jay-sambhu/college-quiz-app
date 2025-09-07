@@ -28,7 +28,8 @@ exports.updateQuiz = async (req, res, next) => {
     const id = req.params.id;
     const fields = req.body;
     const affected = await quizModel.updateQuiz(id, fields);
-    if (!affected) return res.status(404).json({ message: 'Quiz not found or no change' });
+    if (!affected)
+      return res.status(404).json({ message: 'Quiz not found or no change' });
     res.json({ message: 'Quiz updated' });
   } catch (err) {
     next(err);
@@ -114,7 +115,7 @@ exports.submitQuiz = async (req, res, next) => {
     // Fetch correct answers
     const questions = await questionModel.findByQuizId(quizId);
     let correctCount = 0;
-    questions.forEach((q) => {
+    questions.forEach(q => {
       if (answers[q.id] === q.correct_option) correctCount++;
     });
 
@@ -122,14 +123,30 @@ exports.submitQuiz = async (req, res, next) => {
     const score = Math.round((correctCount / questions.length) * 100);
 
     // Record submission
-    const subId = await submissionModel.create({ quiz_id: quizId, student_id: studentId, score, time_taken: timeTaken });
+    const subId = await submissionModel.create({
+      quiz_id: quizId,
+      student_id: studentId,
+      score,
+      time_taken: timeTaken,
+    });
 
     // Record each answer
     for (const [qId, selected] of Object.entries(answers)) {
-      await createAnswer({ submission_id: subId, question_id: qId, selected_option: selected });
+      await createAnswer({
+        submission_id: subId,
+        question_id: qId,
+        selected_option: selected,
+      });
     }
 
-    res.status(201).json({ submissionId: subId, score, correctCount, total: questions.length });
+    res
+      .status(201)
+      .json({
+        submissionId: subId,
+        score,
+        correctCount,
+        total: questions.length,
+      });
   } catch (err) {
     next(err);
   }
@@ -143,10 +160,11 @@ exports.getQuizResults = async (req, res, next) => {
     const quizId = req.params.id;
     const userId = req.params.userId;
     const submission = await submissionModel.findByQuizAndUser(quizId, userId);
-    if (!submission) return res.status(404).json({ message: 'Submission not found' });
+    if (!submission)
+      return res.status(404).json({ message: 'Submission not found' });
     const answersList = await findBySubmission(submission.id);
     res.json({ submission, answers: answersList });
   } catch (err) {
     next(err);
   }
-}; 
+};

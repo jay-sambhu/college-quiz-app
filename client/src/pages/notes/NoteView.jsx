@@ -9,12 +9,13 @@ import {
   CircularProgress,
   IconButton,
 } from '@mui/material';
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import { getTeacherNote, getStudentNote, apiDeleteNote as deleteNote } from '../../services/api';
+import {
+  getTeacherNote,
+  getStudentNote,
+  apiDeleteNote as deleteNote,
+} from '../../services/api';
 
 const NoteView = () => {
   const navigate = useNavigate();
@@ -27,9 +28,10 @@ const NoteView = () => {
     const fetchNote = async () => {
       try {
         // Select the appropriate API function based on user role
-        const getNoteFunc = user.role === 'teacher' ? getTeacherNote : getStudentNote;
+        const getNoteFunc =
+          user.role === 'teacher' ? getTeacherNote : getStudentNote;
         const noteData = await getNoteFunc(id);
-        
+
         if (noteData.userId !== user.id) {
           navigate('/notes');
           return;
@@ -59,7 +61,12 @@ const NoteView = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );

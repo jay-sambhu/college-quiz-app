@@ -8,7 +8,7 @@ const authenticate = async (req, res, next) => {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
-        message: 'No token provided'
+        message: 'No token provided',
       });
     }
 
@@ -23,22 +23,22 @@ const authenticate = async (req, res, next) => {
       if (error.name === 'TokenExpiredError') {
         return res.status(401).json({
           success: false,
-          message: 'Token expired'
+          message: 'Token expired',
         });
       }
       return res.status(401).json({
         success: false,
-        message: 'Invalid token'
+        message: 'Invalid token',
       });
     }
-    
+
     // Get user from database
     const user = await User.findById(decoded.id);
     if (!user) {
       console.error('User not found for token:', decoded);
       return res.status(401).json({
         success: false,
-        message: 'User not found'
+        message: 'User not found',
       });
     }
 
@@ -46,7 +46,7 @@ const authenticate = async (req, res, next) => {
     if (!user.is_active) {
       return res.status(403).json({
         success: false,
-        message: 'Account is deactivated. Please contact support.'
+        message: 'Account is deactivated. Please contact support.',
       });
     }
 
@@ -55,7 +55,7 @@ const authenticate = async (req, res, next) => {
       userId: user.id,
       id: user.id,
       role: user.role,
-      email: user.email
+      email: user.email,
     };
 
     next();
@@ -63,31 +63,31 @@ const authenticate = async (req, res, next) => {
     console.error('Authentication error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error authenticating user'
+      message: 'Error authenticating user',
     });
   }
 };
 
-const requireRole = (role) => {
+const requireRole = role => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        message: 'Authentication required' 
+        message: 'Authentication required',
       });
     }
 
     if (typeof role === 'string' && req.user.role !== role) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        message: `Access denied. Requires ${role} role.` 
+        message: `Access denied. Requires ${role} role.`,
       });
     }
 
     if (Array.isArray(role) && !role.includes(req.user.role)) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         success: false,
-        message: `Access denied. Requires one of: ${role.join(', ')}` 
+        message: `Access denied. Requires one of: ${role.join(', ')}`,
       });
     }
 
@@ -97,5 +97,5 @@ const requireRole = (role) => {
 
 module.exports = {
   authenticate,
-  requireRole
-}; 
+  requireRole,
+};

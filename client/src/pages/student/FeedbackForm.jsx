@@ -101,7 +101,7 @@ const FeedbackForm = () => {
                   labelId="teacher-label"
                   label="Teacher"
                 >
-                  {teachers.map((t) => (
+                  {teachers.map(t => (
                     <MenuItem key={t.id} value={t.id}>
                       {t.username}
                     </MenuItem>
@@ -144,7 +144,9 @@ const FeedbackForm = () => {
                 fullWidth
                 disabled={isSubmitting || submitting}
               >
-                {isSubmitting || submitting ? 'Submitting...' : 'Submit Feedback'}
+                {isSubmitting || submitting
+                  ? 'Submitting...'
+                  : 'Submit Feedback'}
               </Button>
             </Form>
           )}
@@ -154,4 +156,4 @@ const FeedbackForm = () => {
   );
 };
 
-export default FeedbackForm; 
+export default FeedbackForm;

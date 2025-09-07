@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
@@ -51,84 +56,123 @@ function App() {
           {/* Protected Routes */}
           <Route element={<Layout />}>
             {/* Admin Routes */}
-            <Route path="/admin" element={
-              <PrivateRoute allowedRoles={['admin']}>
-                <AdminDashboard />
-              </PrivateRoute>
-            } />
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
+                </PrivateRoute>
+              }
+            />
 
             {/* Teacher Routes */}
-            <Route path="/teacher" element={
-              <PrivateRoute allowedRoles={['teacher']}>
-                <TeacherDashboard />
-              </PrivateRoute>
-            } />
-            <Route path="/quiz/create" element={
-              <PrivateRoute allowedRoles={['teacher']}>
-                <QuizCreate />
-              </PrivateRoute>
-            } />
-            <Route path="/quiz/:id/edit" element={
-              <PrivateRoute allowedRoles={['teacher']}>
-                <QuizEdit />
-              </PrivateRoute>
-            } />
+            <Route
+              path="/teacher"
+              element={
+                <PrivateRoute allowedRoles={['teacher']}>
+                  <TeacherDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quiz/create"
+              element={
+                <PrivateRoute allowedRoles={['teacher']}>
+                  <QuizCreate />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quiz/:id/edit"
+              element={
+                <PrivateRoute allowedRoles={['teacher']}>
+                  <QuizEdit />
+                </PrivateRoute>
+              }
+            />
 
             {/* Student Routes */}
-            <Route path="/student" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <StudentDashboard />
-              </PrivateRoute>
-            } />
-            <Route path="/quiz/:id/take" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <QuizTake />
-              </PrivateRoute>
-            } />
-            <Route path="/quiz/:id/results" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <QuizResults />
-              </PrivateRoute>
-            } />
+            <Route
+              path="/student"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <StudentDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quiz/:id/take"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <QuizTake />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quiz/:id/results"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <QuizResults />
+                </PrivateRoute>
+              }
+            />
 
             {/* Shared Routes */}
-            <Route path="/notes" element={
-              <PrivateRoute allowedRoles={['student', 'teacher']}>
-                <NotesList />
-              </PrivateRoute>
-            } />
-            <Route path="/notes/create" element={
-              <PrivateRoute allowedRoles={['student', 'teacher']}>
-                <NoteCreate />
-              </PrivateRoute>
-            } />
-            <Route path="/notes/:id" element={
-              <PrivateRoute allowedRoles={['student', 'teacher']}>
-                <NoteView />
-              </PrivateRoute>
-            } />
+            <Route
+              path="/notes"
+              element={
+                <PrivateRoute allowedRoles={['student', 'teacher']}>
+                  <NotesList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes/create"
+              element={
+                <PrivateRoute allowedRoles={['student', 'teacher']}>
+                  <NoteCreate />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notes/:id"
+              element={
+                <PrivateRoute allowedRoles={['student', 'teacher']}>
+                  <NoteView />
+                </PrivateRoute>
+              }
+            />
 
             {/* Student Extra Routes */}
-            <Route path="/student/leaderboard" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <Leaderboard />
-              </PrivateRoute>
-            } />
-            <Route path="/student/feedback" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <FeedbackForm />
-              </PrivateRoute>
-            } />
-            <Route path="/student/profile" element={
-              <PrivateRoute allowedRoles={['student']}>
-                <Profile />
-              </PrivateRoute>
-            } />
+            <Route
+              path="/student/leaderboard"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <Leaderboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/feedback"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <FeedbackForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/student/profile"
+              element={
+                <PrivateRoute allowedRoles={['student']}>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
           </Route>
 
           {/* Default Route */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-          
+
           {/* Catch-all route - must be last */}
           <Route path="*" element={<NotFound />} />
         </Routes>

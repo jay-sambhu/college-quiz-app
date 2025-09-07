@@ -16,7 +16,7 @@ class BaseModel {
 
       let query = `SELECT * FROM ${this.tableName}`;
       const values = [];
-      
+
       if (Object.keys(conditions).length > 0) {
         const whereClause = Object.keys(conditions)
           .map(key => `${key} = ?`)
@@ -24,7 +24,7 @@ class BaseModel {
         query += ` WHERE ${whereClause}`;
         values.push(...Object.values(conditions));
       }
-      
+
       if (orderBy) {
         // Sanitize orderBy to prevent SQL injection
         const sanitizedOrderBy = orderBy.replace(/[^a-zA-Z0-9_,\s]/g, '');
@@ -67,7 +67,9 @@ class BaseModel {
       }
 
       const columns = Object.keys(data).join(', ');
-      const placeholders = Object.keys(data).map(() => '?').join(', ');
+      const placeholders = Object.keys(data)
+        .map(() => '?')
+        .join(', ');
       const values = Object.values(data);
 
       const [result] = await pool.execute(
@@ -158,4 +160,4 @@ class BaseModel {
   }
 }
 
-module.exports = BaseModel; 
+module.exports = BaseModel;

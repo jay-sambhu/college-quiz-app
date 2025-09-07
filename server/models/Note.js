@@ -42,7 +42,7 @@ class Note extends BaseModel {
     // Transform the results into a nested structure
     const note = {
       ...results[0],
-      accesses: []
+      accesses: [],
     };
 
     results.forEach(row => {
@@ -52,8 +52,8 @@ class Note extends BaseModel {
             id: row.student_id,
             username: row.student_username,
             firstName: row.student_firstName,
-            lastName: row.student_lastName
-          }
+            lastName: row.student_lastName,
+          },
         });
       }
     });
@@ -97,7 +97,7 @@ class Note extends BaseModel {
       data.title,
       data.content,
       data.userId,
-      data.isPublic ? 1 : 0
+      data.isPublic ? 1 : 0,
     ]);
     return this.findById(result.insertId);
   }

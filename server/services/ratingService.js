@@ -17,7 +17,7 @@ const ratingService = {
    * @param {number} id - Rating ID
    * @returns {Promise<Object|null>} Rating object or null
    */
-  findById: async (id) => {
+  findById: async id => {
     return TeacherRating.findByIdWithUsers(id);
   },
 
@@ -26,7 +26,7 @@ const ratingService = {
    * @param {number} teacherId - Teacher ID
    * @returns {Promise<Array>} Array of ratings
    */
-  findByTeacher: async (teacherId) => {
+  findByTeacher: async teacherId => {
     return TeacherRating.findByTeacher(teacherId);
   },
 
@@ -35,7 +35,7 @@ const ratingService = {
    * @param {number} studentId - Student ID
    * @returns {Promise<Array>} Array of ratings
    */
-  findByStudent: async (studentId) => {
+  findByStudent: async studentId => {
     return TeacherRating.findByStudent(studentId);
   },
 
@@ -44,7 +44,7 @@ const ratingService = {
    * @param {Object} data - Rating data
    * @returns {Promise<Object>} Created rating
    */
-  create: async (data) => {
+  create: async data => {
     return TeacherRating.create(data);
   },
 
@@ -63,7 +63,7 @@ const ratingService = {
    * @param {number} id - Rating ID
    * @returns {Promise<Object>} Deleted rating
    */
-  delete: async (id) => {
+  delete: async id => {
     return TeacherRating.delete(id);
   },
 
@@ -72,9 +72,9 @@ const ratingService = {
    * @param {number} teacherId - Teacher ID
    * @returns {Promise<Object>} Rating statistics
    */
-  getTeacherStats: async (teacherId) => {
+  getTeacherStats: async teacherId => {
     return TeacherRating.getTeacherStats(teacherId);
-  }
+  },
 };
 
-module.exports = ratingService; 
+module.exports = ratingService;

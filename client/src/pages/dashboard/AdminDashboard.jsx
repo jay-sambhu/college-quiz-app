@@ -27,8 +27,8 @@ const AdminDashboard = () => {
           getAllUsers(),
         ]);
 
-        const teachers = users.filter((user) => user.role === 'teacher');
-        const students = users.filter((user) => user.role === 'student');
+        const teachers = users.filter(user => user.role === 'teacher');
+        const students = users.filter(user => user.role === 'student');
 
         setStats({
           totalQuizzes: quizzes.length,
@@ -48,7 +48,12 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -99,4 +104,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;

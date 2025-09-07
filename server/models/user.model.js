@@ -8,10 +8,7 @@ const baseUserModel = require('./userModel');
  * @returns {Promise<Object|undefined>} User record or undefined.
  */
 async function findByEmail(email) {
-  const rows = await query(
-    `SELECT * FROM users WHERE email = ?`,
-    [email]
-  );
+  const rows = await query(`SELECT * FROM users WHERE email = ?`, [email]);
   return rows[0];
 }
 
@@ -32,5 +29,5 @@ async function create({ username, email, password, role }) {
 module.exports = {
   ...baseUserModel,
   findByEmail,
-  create
-}; 
+  create,
+};

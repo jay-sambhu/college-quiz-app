@@ -25,7 +25,7 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
-  maxAge: 86400 // 24 hours
+  maxAge: 86400, // 24 hours
 };
 
 // Log CORS requests for debugging
@@ -34,23 +34,25 @@ app.use((req, res, next) => {
     method: req.method,
     url: req.url,
     origin: req.headers.origin,
-    contentType: req.headers['content-type']
+    contentType: req.headers['content-type'],
   });
   next();
 });
 
 // Middleware
 app.use(cors(corsOptions));
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'cross-origin' }
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
 app.use(morgan('dev'));
 app.use(express.json());
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
 
@@ -78,20 +80,21 @@ app.use(errorHandler);
 // Start server if this file is run directly
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;
-  
+
   // Test database connection before starting the server
   testConnection()
     .then(connected => {
       if (!connected) {
-        console.error('❌ Failed to connect to database. Server will not start.');
+        console.error(
+          '❌ Failed to connect to database. Server will not start.'
+        );
         process.exit(1);
       }
-      
+
       app.listen(PORT, () => {
         console.log(`✅ Server running on port ${PORT}`);
         console.log('🌐 CORS configured to allow all origins in development');
         console.log('🔒 Authentication middleware is active');
-     
       });
     })
     .catch(error => {
@@ -101,4 +104,4 @@ if (require.main === module) {
 }
 
 // Export app for testing
-module.exports = app; 
+module.exports = app;

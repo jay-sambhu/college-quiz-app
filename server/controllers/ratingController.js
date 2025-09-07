@@ -23,7 +23,9 @@ exports.rateTeacher = async (req, res) => {
     }
 
     if (teacher.role !== 'teacher') {
-      return res.status(400).json({ message: 'The specified user is not a teacher' });
+      return res
+        .status(400)
+        .json({ message: 'The specified user is not a teacher' });
     }
 
     // Students can't rate themselves
@@ -35,13 +37,15 @@ exports.rateTeacher = async (req, res) => {
       teacherId,
       studentId,
       rating,
-      comment
+      comment,
     });
 
     res.status(201).json(ratingRecord);
   } catch (error) {
     console.error('Error rating teacher:', error);
-    res.status(500).json({ message: 'Error rating teacher', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error rating teacher', error: error.message });
   }
 };
 
@@ -66,14 +70,21 @@ exports.updateRating = async (req, res) => {
     }
 
     if (existingRating.studentId !== studentId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to update this rating' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to update this rating' });
     }
 
-    const updatedRating = await ratingService.update(ratingId, { rating, comment });
+    const updatedRating = await ratingService.update(ratingId, {
+      rating,
+      comment,
+    });
     res.json(updatedRating);
   } catch (error) {
     console.error('Error updating rating:', error);
-    res.status(500).json({ message: 'Error updating rating', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error updating rating', error: error.message });
   }
 };
 
@@ -92,14 +103,18 @@ exports.deleteRating = async (req, res) => {
     }
 
     if (existingRating.studentId !== studentId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to delete this rating' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to delete this rating' });
     }
 
     await ratingService.delete(ratingId);
     res.json({ message: 'Rating deleted successfully' });
   } catch (error) {
     console.error('Error deleting rating:', error);
-    res.status(500).json({ message: 'Error deleting rating', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error deleting rating', error: error.message });
   }
 };
 
@@ -109,7 +124,7 @@ exports.deleteRating = async (req, res) => {
 exports.getTeacherRatings = async (req, res) => {
   try {
     const teacherId = Number(req.params.teacherId);
-    
+
     // Verify the teacher exists
     const teacher = await userService.findById(teacherId);
     if (!teacher) {
@@ -124,14 +139,16 @@ exports.getTeacherRatings = async (req, res) => {
         id: teacher.id,
         username: teacher.username,
         firstName: teacher.firstName,
-        lastName: teacher.lastName
+        lastName: teacher.lastName,
       },
       ratings,
-      stats
+      stats,
     });
   } catch (error) {
     console.error('Error fetching teacher ratings:', error);
-    res.status(500).json({ message: 'Error fetching ratings', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching ratings', error: error.message });
   }
 };
 
@@ -145,6 +162,8 @@ exports.getStudentRatings = async (req, res) => {
     res.json(ratings);
   } catch (error) {
     console.error('Error fetching student ratings:', error);
-    res.status(500).json({ message: 'Error fetching ratings', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching ratings', error: error.message });
   }
-}; 
+};

@@ -12,28 +12,28 @@ const api = axios.create({
 
 // Add request interceptor to add auth token
 api.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
 
 // Add response interceptor for error handling
 api.interceptors.response.use(
-  (response) => {
+  response => {
     // Log successful responses in development
     if (process.env.NODE_ENV === 'development') {
       console.log('API Response:', {
         url: response.config.url,
         method: response.config.method,
         status: response.status,
-        data: response.data
+        data: response.data,
       });
     }
 
@@ -41,14 +41,14 @@ api.interceptors.response.use(
     if (response.data && response.data.success === false) {
       return Promise.reject({
         response: {
-          data: response.data
-        }
+          data: response.data,
+        },
       });
     }
 
     return response;
   },
-  (error) => {
+  error => {
     // Log errors in development
     if (process.env.NODE_ENV === 'development') {
       console.error('API Error:', {
@@ -56,7 +56,7 @@ api.interceptors.response.use(
         method: error.config?.method,
         status: error.response?.status,
         data: error.response?.data,
-        message: error.message
+        message: error.message,
       });
     }
 
@@ -71,9 +71,12 @@ api.interceptors.response.use(
       response: {
         data: {
           success: false,
-          message: error.response?.data?.message || error.message || 'An error occurred'
-        }
-      }
+          message:
+            error.response?.data?.message ||
+            error.message ||
+            'An error occurred',
+        },
+      },
     };
 
     return Promise.reject(errorResponse);
@@ -81,8 +84,8 @@ api.interceptors.response.use(
 );
 
 // Auth endpoints
-export const apiLogin = (credentials) => api.post('/auth/login', credentials);
-export const apiRegister = (userData) => api.post('/auth/register', userData);
+export const apiLogin = credentials => api.post('/auth/login', credentials);
+export const apiRegister = userData => api.post('/auth/register', userData);
 export const apiLogout = () => {
   localStorage.removeItem('token');
   return Promise.resolve();
@@ -90,35 +93,36 @@ export const apiLogout = () => {
 
 // User endpoints
 export const apiGetUser = () => api.get('/users/me');
-export const apiUpdateUser = (data) => api.put('/users/me', data);
+export const apiUpdateUser = data => api.put('/users/me', data);
 
 // Quiz endpoints
 export const apiGetQuizzes = () => api.get('/quizzes');
-export const apiGetQuiz = (id) => api.get(`/quizzes/${id}`);
-export const apiCreateQuiz = (data) => api.post('/quizzes', data);
+export const apiGetQuiz = id => api.get(`/quizzes/${id}`);
+export const apiCreateQuiz = data => api.post('/quizzes', data);
 export const apiUpdateQuiz = (id, data) => api.put(`/quizzes/${id}`, data);
-export const apiDeleteQuiz = (id) => api.delete(`/quizzes/${id}`);
+export const apiDeleteQuiz = id => api.delete(`/quizzes/${id}`);
 
 // Submission endpoints
-export const apiSubmitQuiz = (quizId, answers) => 
+export const apiSubmitQuiz = (quizId, answers) =>
   api.post(`/quizzes/${quizId}/submit`, { answers });
 export const apiGetSubmissions = () => api.get('/submissions');
-export const apiGetSubmission = (id) => api.get(`/submissions/${id}`);
+export const apiGetSubmission = id => api.get(`/submissions/${id}`);
 
 // Note endpoints
 export const apiGetNotes = () => api.get('/notes');
-export const apiGetNote = (id) => api.get(`/notes/${id}`);
-export const apiCreateNote = (data) => api.post('/notes', data);
+export const apiGetNote = id => api.get(`/notes/${id}`);
+export const apiCreateNote = data => api.post('/notes', data);
 export const apiUpdateNote = (id, data) => api.put(`/notes/${id}`, data);
-export const apiDeleteNote = (id) => api.delete(`/notes/${id}`);
-export const apiShareNote = (id, studentId) => 
+export const apiDeleteNote = id => api.delete(`/notes/${id}`);
+export const apiShareNote = (id, studentId) =>
   api.post(`/notes/${id}/share`, { studentId });
-export const apiUnshareNote = (id, studentId) => 
+export const apiUnshareNote = (id, studentId) =>
   api.post(`/notes/${id}/unshare`, { studentId });
 
 // Add missing endpoints for student dashboard
 export const getAvailableQuizzes = () => api.get('/quizzes/available');
-export const getMyQuizResults = (quizId) => api.get(`/quizzes/${quizId}/my-result`);
+export const getMyQuizResults = quizId =>
+  api.get(`/quizzes/${quizId}/my-result`);
 export const getLoginStreak = () => api.get('/users/login-streak');
 export const getLoginHistory = () => api.get('/users/login-history');
 
@@ -133,7 +137,7 @@ export const getCurrentUser = () => {
 };
 
 // Add updateProfile function
-export const updateProfile = (profileData) => {
+export const updateProfile = profileData => {
   return api.put('/auth/update-profile', profileData);
 };
 
@@ -148,12 +152,12 @@ export const getAllUsers = () => {
 };
 
 // Add getTeacherQuizzes function
-export const getTeacherQuizzes = (teacherId) => {
+export const getTeacherQuizzes = teacherId => {
   return api.get(`/teachers/${teacherId}/quizzes`);
 };
 
 // Add getTeacherNotes function
-export const getTeacherNotes = (teacherId) => {
+export const getTeacherNotes = teacherId => {
   return api.get(`/teachers/${teacherId}/notes`);
 };
 
@@ -163,7 +167,7 @@ export const getMySubjects = () => {
 };
 
 // Add createQuiz function
-export const createQuiz = (quizData) => {
+export const createQuiz = quizData => {
   return api.post('/quizzes', quizData);
 };
 
@@ -183,12 +187,12 @@ export const submitQuiz = (quizId, answers) => {
 };
 
 // Add getStudentQuiz function
-export const getStudentQuiz = (quizId) => {
+export const getStudentQuiz = quizId => {
   return api.get(`/quizzes/${quizId}/student`);
 };
 
 // Add getQuizResults function
-export const getQuizResults = (quizId) => {
+export const getQuizResults = quizId => {
   return api.get(`/quizzes/${quizId}/results`);
 };
 
@@ -198,12 +202,12 @@ export const getStudentNotes = () => {
 };
 
 // Add getStudentNote function
-export const getStudentNote = (noteId) => {
+export const getStudentNote = noteId => {
   return api.get(`/notes/student/${noteId}`);
 };
 
 // Add getTeacherNote function
-export const getTeacherNote = (noteId) => {
+export const getTeacherNote = noteId => {
   return api.get(`/teachers/notes/${noteId}`);
 };
 
@@ -218,7 +222,7 @@ export const getTeachers = () => {
 };
 
 // Add submitFeedback function
-export const submitFeedback = (feedbackData) => {
+export const submitFeedback = feedbackData => {
   return api.post('/feedback', feedbackData);
 };
 

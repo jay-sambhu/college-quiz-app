@@ -35,7 +35,10 @@ describe('Quiz Model Unit Tests', () => {
 
   it('updateQuiz should return affectedRows', async () => {
     db.query.mockResolvedValue({ affectedRows: 2 });
-    const result = await quizModel.updateQuiz(5, { title: 'New', is_published: 0 });
+    const result = await quizModel.updateQuiz(5, {
+      title: 'New',
+      is_published: 0,
+    });
     expect(db.query).toHaveBeenCalledWith(
       expect.stringContaining('UPDATE quizzes SET'),
       ['New', 0, 5]
@@ -68,7 +71,9 @@ describe('Quiz Model Unit Tests', () => {
     const list = [{ id: 1 }, { id: 2 }];
     db.query.mockResolvedValue(list);
     const result = await quizModel.findAll();
-    expect(db.query).toHaveBeenCalledWith(expect.stringContaining('SELECT * FROM quizzes'));
+    expect(db.query).toHaveBeenCalledWith(
+      expect.stringContaining('SELECT * FROM quizzes')
+    );
     expect(result).toEqual(list);
   });
 
@@ -93,4 +98,4 @@ describe('Quiz Model Unit Tests', () => {
     );
     expect(result).toEqual(list);
   });
-}); 
+});

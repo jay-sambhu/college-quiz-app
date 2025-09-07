@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 
-const useApi = (apiFunction) => {
+const useApi = apiFunction => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
@@ -33,4 +33,4 @@ const useApi = (apiFunction) => {
   };
 };
 
-export default useApi; 
+export default useApi;

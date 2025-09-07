@@ -92,7 +92,7 @@ class QuizSubmission extends BaseModel {
       data.quizId,
       data.studentId,
       data.score,
-      data.timeTaken
+      data.timeTaken,
     ]);
     return this.findById(result.insertId);
   }
@@ -114,7 +114,7 @@ class QuizSubmission extends BaseModel {
         submissionData.quizId,
         submissionData.studentId,
         submissionData.score,
-        submissionData.timeTaken
+        submissionData.timeTaken,
       ]);
 
       // Create answers
@@ -131,7 +131,7 @@ class QuizSubmission extends BaseModel {
           a.questionId,
           a.selectedOption,
           new Date(),
-          new Date()
+          new Date(),
         ]);
         await connection.query(answersQuery, [answersValues]);
       }
@@ -172,4 +172,4 @@ class QuizSubmission extends BaseModel {
   }
 }
 
-module.exports = new QuizSubmission(); 
+module.exports = new QuizSubmission();

@@ -12,7 +12,7 @@ router.post(
   '/',
   [
     body('title').trim().isLength({ min: 3 }),
-    body('description').trim().isLength({ min: 10 })
+    body('description').trim().isLength({ min: 10 }),
   ],
   quizController.createQuiz
 );
@@ -21,7 +21,7 @@ router.put(
   '/:quizId',
   [
     body('title').trim().isLength({ min: 3 }),
-    body('description').trim().isLength({ min: 10 })
+    body('description').trim().isLength({ min: 10 }),
   ],
   quizController.updateQuiz
 );
@@ -34,4 +34,4 @@ router.get('/teacher', quizController.getTeacherQuizzes);
 router.get('/:quizId', quizController.getQuiz);
 router.get('/', quizController.getAllQuizzes);
 
-module.exports = router; 
+module.exports = router;

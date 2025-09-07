@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Box, Typography, Button, Grid, Paper, CircularProgress } from '@mui/material';
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  Grid,
+  Paper,
+  CircularProgress,
+} from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import useApi from '../../hooks/useApi';
 import { getSubjectQuestions } from '../../services/api';
@@ -11,7 +19,12 @@ import { getSubjectQuestions } from '../../services/api';
 const SubjectQuestions = () => {
   const { subjectId } = useParams();
   const navigate = useNavigate();
-  const { execute, data: questions, loading, error } = useApi(() => getSubjectQuestions(subjectId));
+  const {
+    execute,
+    data: questions,
+    loading,
+    error,
+  } = useApi(() => getSubjectQuestions(subjectId));
 
   useEffect(() => {
     execute();
@@ -19,30 +32,43 @@ const SubjectQuestions = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
   }
 
   if (error) {
-    return <Typography color="error" variant="h6">{error}</Typography>;
+    return (
+      <Typography color="error" variant="h6">
+        {error}
+      </Typography>
+    );
   }
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 2, display: 'flex', justifyContent: 'space-between' }}>
+      <Box
+        sx={{ mt: 4, mb: 2, display: 'flex', justifyContent: 'space-between' }}
+      >
         <Typography variant="h4">Questions for Subject {subjectId}</Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={() => navigate(`/teacher/questions/new?subjectId=${subjectId}`)}
+          onClick={() =>
+            navigate(`/teacher/questions/new?subjectId=${subjectId}`)
+          }
         >
           Add Question
         </Button>
       </Box>
       <Grid container spacing={3}>
-        {questions?.map((q) => (
+        {questions?.map(q => (
           <Grid item xs={12} sm={6} md={4} key={q.id}>
             <Paper elevation={3} sx={{ p: 2 }}>
               <Typography variant="body1" gutterBottom>
@@ -64,4 +90,4 @@ const SubjectQuestions = () => {
   );
 };
 
-export default SubjectQuestions; 
+export default SubjectQuestions;

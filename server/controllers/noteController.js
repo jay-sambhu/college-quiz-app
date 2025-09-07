@@ -18,13 +18,15 @@ exports.createNote = async (req, res) => {
       title,
       content,
       userId,
-      isPublic
+      isPublic,
     });
 
     res.status(201).json(note);
   } catch (error) {
     console.error('Error creating note:', error);
-    res.status(500).json({ message: 'Error creating note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error creating note', error: error.message });
   }
 };
 
@@ -49,19 +51,23 @@ exports.updateNote = async (req, res) => {
     }
 
     if (existingNote.userId !== userId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to update this note' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to update this note' });
     }
 
     const updatedNote = await noteService.update(noteId, {
       title,
       content,
-      isPublic
+      isPublic,
     });
 
     res.json(updatedNote);
   } catch (error) {
     console.error('Error updating note:', error);
-    res.status(500).json({ message: 'Error updating note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error updating note', error: error.message });
   }
 };
 
@@ -80,14 +86,18 @@ exports.deleteNote = async (req, res) => {
     }
 
     if (existingNote.userId !== userId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to delete this note' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to delete this note' });
     }
 
     await noteService.delete(noteId);
     res.json({ message: 'Note deleted successfully' });
   } catch (error) {
     console.error('Error deleting note:', error);
-    res.status(500).json({ message: 'Error deleting note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error deleting note', error: error.message });
   }
 };
 
@@ -105,20 +115,24 @@ exports.getNoteById = async (req, res) => {
     }
 
     // Check if user has access to the note
-    const hasAccess = 
-      note.isPublic || 
-      note.userId === userId || 
+    const hasAccess =
+      note.isPublic ||
+      note.userId === userId ||
       req.user.role === 'admin' ||
       note.accesses.some(access => access.studentId === userId);
 
     if (!hasAccess) {
-      return res.status(403).json({ message: 'You do not have permission to view this note' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to view this note' });
     }
 
     res.json(note);
   } catch (error) {
     console.error('Error fetching note:', error);
-    res.status(500).json({ message: 'Error fetching note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching note', error: error.message });
   }
 };
 
@@ -132,7 +146,9 @@ exports.getNotesByUser = async (req, res) => {
     res.json(notes);
   } catch (error) {
     console.error('Error fetching notes:', error);
-    res.status(500).json({ message: 'Error fetching notes', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching notes', error: error.message });
   }
 };
 
@@ -144,12 +160,14 @@ exports.getAllNotes = async (req, res) => {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Admin access required' });
     }
-    
+
     const notes = await noteService.findAll();
     res.json(notes);
   } catch (error) {
     console.error('Error fetching all notes:', error);
-    res.status(500).json({ message: 'Error fetching notes', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching notes', error: error.message });
   }
 };
 
@@ -169,14 +187,18 @@ exports.shareNote = async (req, res) => {
     }
 
     if (note.userId !== userId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to share this note' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to share this note' });
     }
 
     await noteService.shareWithStudent(noteId, studentId);
     res.json({ message: 'Note shared successfully' });
   } catch (error) {
     console.error('Error sharing note:', error);
-    res.status(500).json({ message: 'Error sharing note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error sharing note', error: error.message });
   }
 };
 
@@ -196,13 +218,17 @@ exports.unshareNote = async (req, res) => {
     }
 
     if (note.userId !== userId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'You do not have permission to unshare this note' });
+      return res
+        .status(403)
+        .json({ message: 'You do not have permission to unshare this note' });
     }
 
     await noteService.unshareWithStudent(noteId, studentId);
     res.json({ message: 'Note unshared successfully' });
   } catch (error) {
     console.error('Error unsharing note:', error);
-    res.status(500).json({ message: 'Error unsharing note', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error unsharing note', error: error.message });
   }
-}; 
+};

@@ -9,7 +9,7 @@ router.post(
     body('username').trim().isLength({ min: 3 }),
     body('email').isEmail().normalizeEmail(),
     body('password').trim().isLength({ min: 6 }),
-    body('role').isIn(['admin', 'teacher', 'student'])
+    body('role').isIn(['admin', 'teacher', 'student']),
   ],
   authController.register
 );
@@ -18,9 +18,9 @@ router.post(
   '/login',
   [
     body('email').isEmail().normalizeEmail(),
-    body('password').trim().not().isEmpty()
+    body('password').trim().not().isEmpty(),
   ],
   authController.login
 );
 
-module.exports = router; 
+module.exports = router;

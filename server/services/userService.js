@@ -17,7 +17,7 @@ const userService = {
    * @param {number} id - User ID
    * @returns {Promise<Object|null>} User object or null
    */
-  findById: async (id) => {
+  findById: async id => {
     return User.findById(id);
   },
 
@@ -26,7 +26,7 @@ const userService = {
    * @param {string} email - User email
    * @returns {Promise<Object|null>} User object or null
    */
-  findByEmail: async (email) => {
+  findByEmail: async email => {
     return User.findByEmail(email);
   },
 
@@ -35,7 +35,7 @@ const userService = {
    * @param {string} username - Username
    * @returns {Promise<Object|null>} User object or null
    */
-  findByUsername: async (username) => {
+  findByUsername: async username => {
     return User.findByUsername(username);
   },
 
@@ -44,7 +44,7 @@ const userService = {
    * @param {string} role - User role (admin, teacher, student)
    * @returns {Promise<Array>} Array of users
    */
-  findByRole: async (role) => {
+  findByRole: async role => {
     return User.findAll({ role });
   },
 
@@ -58,7 +58,14 @@ const userService = {
    * @returns {Promise<Object>} Created user
    */
   create: async ({ username, email, password, role, firstName, lastName }) => {
-    return User.create({ username, email, password, role, firstName, lastName });
+    return User.create({
+      username,
+      email,
+      password,
+      role,
+      firstName,
+      lastName,
+    });
   },
 
   /**
@@ -76,9 +83,9 @@ const userService = {
    * @param {number} id - User ID
    * @returns {Promise<Object>} Deleted user
    */
-  delete: async (id) => {
+  delete: async id => {
     return User.delete(id);
-  }
+  },
 };
 
-module.exports = userService; 
+module.exports = userService;

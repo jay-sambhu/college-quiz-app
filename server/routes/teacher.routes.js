@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   console.log('🧑‍🏫 Teacher API Request:', {
     method: req.method,
     url: req.originalUrl,
-    userId: req.user?.userId
+    userId: req.user?.userId,
   });
   next();
 });
@@ -22,4 +22,4 @@ router.get('/quizzes', teacherController.getTeacherQuizzes);
 router.get('/notes', teacherController.getTeacherNotes);
 router.get('/stats', teacherController.getTeacherStats);
 
-module.exports = router; 
+module.exports = router;

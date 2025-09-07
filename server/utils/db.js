@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 /**
@@ -25,5 +25,5 @@ async function query(sql, params = []) {
 
 module.exports = {
   pool,
-  query
-}; 
+  query,
+};

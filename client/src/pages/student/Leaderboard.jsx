@@ -41,9 +41,9 @@ const Leaderboard = () => {
           <Select
             value={month}
             label="Month"
-            onChange={(e) => setMonth(e.target.value)}
+            onChange={e => setMonth(e.target.value)}
           >
-            {[...Array(12).keys()].map((m) => (
+            {[...Array(12).keys()].map(m => (
               <MenuItem key={m + 1} value={m + 1}>
                 {new Date(0, m).toLocaleString('default', { month: 'long' })}
               </MenuItem>
@@ -85,4 +85,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard; 
+export default Leaderboard;

@@ -31,7 +31,10 @@ class User extends BaseModel {
       errors.push('Password must be at least 6 characters long');
     }
 
-    if (userData.role && !['student', 'teacher', 'admin'].includes(userData.role)) {
+    if (
+      userData.role &&
+      !['student', 'teacher', 'admin'].includes(userData.role)
+    ) {
       errors.push('Invalid role specified');
     }
 
@@ -44,10 +47,9 @@ class User extends BaseModel {
         throw new Error('Email is required');
       }
 
-      const [rows] = await pool.execute(
-        'SELECT * FROM users WHERE email = ?',
-        [email]
-      );
+      const [rows] = await pool.execute('SELECT * FROM users WHERE email = ?', [
+        email,
+      ]);
       return rows[0];
     } catch (error) {
       console.error('Error in findByEmail:', error);
@@ -93,7 +95,7 @@ class User extends BaseModel {
 
       // Hash password before saving
       const hashedPassword = await bcrypt.hash(userData.password, 10);
-      
+
       // Prepare user data
       const userToCreate = {
         username: userData.username,
@@ -105,12 +107,12 @@ class User extends BaseModel {
         profile_picture: userData.profilePicture || null,
         is_active: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       };
 
       // Create user using BaseModel's create method
       const createdUser = await super.create(userToCreate);
-      
+
       // Remove password from returned user data
       const { password, ...userWithoutPassword } = createdUser;
       return userWithoutPassword;
@@ -167,12 +169,12 @@ class User extends BaseModel {
         profile_picture: userData.profilePicture,
         email: userData.email,
         password: userData.password,
-        updated_at: new Date()
+        updated_at: new Date(),
       };
 
       // Remove undefined values
-      Object.keys(mappedData).forEach(key => 
-        mappedData[key] === undefined && delete mappedData[key]
+      Object.keys(mappedData).forEach(
+        key => mappedData[key] === undefined && delete mappedData[key]
       );
 
       if (Object.keys(mappedData).length === 0) {
@@ -187,4 +189,4 @@ class User extends BaseModel {
   }
 }
 
-module.exports = new User(); 
+module.exports = new User();

@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   console.log('👑 Admin API Request:', {
     method: req.method,
     url: req.originalUrl,
-    userId: req.user?.userId
+    userId: req.user?.userId,
   });
   next();
 });
@@ -21,4 +21,4 @@ router.get('/users', adminController.getAllUsers);
 router.put('/users/:userId/role', adminController.updateUserRole);
 router.get('/stats', adminController.getAdminStats);
 
-module.exports = router; 
+module.exports = router;

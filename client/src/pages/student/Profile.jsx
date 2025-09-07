@@ -14,8 +14,16 @@ import useApi from '../../hooks/useApi';
 import { getProfile, getLoginHistory } from '../../services/api';
 
 const Profile = () => {
-  const { execute: fetchProfile, data: profileRes, loading: loadingProfile } = useApi(getProfile);
-  const { execute: fetchHistory, data: historyRes, loading: loadingHistory } = useApi(getLoginHistory);
+  const {
+    execute: fetchProfile,
+    data: profileRes,
+    loading: loadingProfile,
+  } = useApi(getProfile);
+  const {
+    execute: fetchHistory,
+    data: historyRes,
+    loading: loadingHistory,
+  } = useApi(getLoginHistory);
 
   useEffect(() => {
     fetchProfile();
@@ -51,7 +59,7 @@ const Profile = () => {
           Login History
         </Typography>
         <List>
-          {history.map((entry) => (
+          {history.map(entry => (
             <ListItem key={entry.id || entry.date}>
               <ListItemText primary={new Date(entry.date).toLocaleString()} />
             </ListItem>
@@ -62,4 +70,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;
