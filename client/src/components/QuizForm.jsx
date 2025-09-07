@@ -1,13 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import {
-  Grid,
-  TextField,
-  Button,
-  Box,
-  CircularProgress,
-} from '@mui/material';
+import { Grid, TextField, Button, Box, CircularProgress } from '@mui/material';
 
 // Validation schema for quiz form
 const QuizSchema = Yup.object().shape({

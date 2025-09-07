@@ -17,8 +17,15 @@ const QuizEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
-  const { execute: fetchQuiz, data: quizRes, loading: loadingQuiz, error: fetchError } = useApi(getTeacherQuiz);
-  const { execute: saveQuiz, loading: savingQuiz } = useApi((values) => updateQuiz(id, values));
+  const {
+    execute: fetchQuiz,
+    data: quizRes,
+    loading: loadingQuiz,
+    error: fetchError,
+  } = useApi(getTeacherQuiz);
+  const { execute: saveQuiz, loading: savingQuiz } = useApi(values =>
+    updateQuiz(id, values)
+  );
 
   useEffect(() => {
     fetchQuiz(id).catch(() => {
@@ -84,4 +91,4 @@ const QuizEdit = () => {
   );
 };
 
-export default QuizEdit; 
+export default QuizEdit;

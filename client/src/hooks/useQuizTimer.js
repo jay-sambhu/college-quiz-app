@@ -21,7 +21,7 @@ const useQuizTimer = (timeLimitInMinutes, onTimeUp) => {
     let timer;
     if (isRunning && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft((prev) => {
+        setTimeLeft(prev => {
           if (prev <= 1) {
             clearInterval(timer);
             setIsRunning(false);
@@ -40,7 +40,7 @@ const useQuizTimer = (timeLimitInMinutes, onTimeUp) => {
     };
   }, [isRunning, timeLeft, onTimeUp]);
 
-  const formatTime = (seconds) => {
+  const formatTime = seconds => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
@@ -58,4 +58,4 @@ const useQuizTimer = (timeLimitInMinutes, onTimeUp) => {
   };
 };
 
-export default useQuizTimer; 
+export default useQuizTimer;

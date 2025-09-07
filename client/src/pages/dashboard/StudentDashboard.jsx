@@ -14,7 +14,12 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
-import { getAvailableQuizzes, getMyQuizResults, getLoginStreak, getLoginHistory } from '../../services/api';
+import {
+  getAvailableQuizzes,
+  getMyQuizResults,
+  getLoginStreak,
+  getLoginHistory,
+} from '../../services/api';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -28,16 +33,17 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [allQuizzesRes, quizResults, streakRes, historyRes] = await Promise.all([
-          getAvailableQuizzes(),
-          Promise.all(
-            (await getAvailableQuizzes()).map((quiz) =>
-              getMyQuizResults(quiz.id).catch(() => null)
-            )
-          ),
-          getLoginStreak(),
-          getLoginHistory(),
-        ]);
+        const [allQuizzesRes, quizResults, streakRes, historyRes] =
+          await Promise.all([
+            getAvailableQuizzes(),
+            Promise.all(
+              (await getAvailableQuizzes()).map(quiz =>
+                getMyQuizResults(quiz.id).catch(() => null)
+              )
+            ),
+            getLoginStreak(),
+            getLoginHistory(),
+          ]);
 
         const allQuizzes = allQuizzesRes.data;
         setQuizzes(allQuizzes);
@@ -62,7 +68,12 @@ const StudentDashboard = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -77,9 +88,11 @@ const StudentDashboard = () => {
         <Box sx={{ mt: 2 }}>
           <Typography variant="h6">Login History</Typography>
           <List>
-            {loginHistory.map((entry) => (
+            {loginHistory.map(entry => (
               <ListItem key={entry.id || entry.date}>
-                <ListItemText primary={new Date(entry.date).toLocaleDateString()} />
+                <ListItemText
+                  primary={new Date(entry.date).toLocaleDateString()}
+                />
               </ListItem>
             ))}
           </List>
@@ -90,7 +103,7 @@ const StudentDashboard = () => {
           Available Quizzes
         </Typography>
         <Grid container spacing={3}>
-          {quizzes.map((quiz) => {
+          {quizzes.map(quiz => {
             const result = results[quiz.id];
             const hasAttempted = !!result;
             const score = result
@@ -107,7 +120,13 @@ const StudentDashboard = () => {
                   <Typography variant="body2" color="text.secondary" paragraph>
                     {quiz.description}
                   </Typography>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mt: 2,
+                    }}
+                  >
                     <Typography variant="body2">
                       Time Limit: {quiz.timeLimit} min
                     </Typography>
@@ -123,7 +142,9 @@ const StudentDashboard = () => {
                       />
                     </Box>
                   )}
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
+                  >
                     <Button
                       variant="contained"
                       size="small"
@@ -143,13 +164,25 @@ const StudentDashboard = () => {
         </Grid>
       </Box>
       <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
-        <Button variant="outlined" size="small" onClick={() => navigate('/student/leaderboard')}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => navigate('/student/leaderboard')}
+        >
           Leaderboard
         </Button>
-        <Button variant="outlined" size="small" onClick={() => navigate('/student/feedback')}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => navigate('/student/feedback')}
+        >
           Feedback
         </Button>
-        <Button variant="outlined" size="small" onClick={() => navigate('/student/profile')}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => navigate('/student/profile')}
+        >
           Profile
         </Button>
       </Box>
@@ -157,4 +190,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard; 
+export default StudentDashboard;

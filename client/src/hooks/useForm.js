@@ -5,21 +5,21 @@ const useForm = (initialValues, validate) => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setValues((prev) => ({
+    setValues(prev => ({
       ...prev,
       [name]: value,
     }));
-    setTouched((prev) => ({
+    setTouched(prev => ({
       ...prev,
       [name]: true,
     }));
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = e => {
     const { name } = e.target;
-    setTouched((prev) => ({
+    setTouched(prev => ({
       ...prev,
       [name]: true,
     }));
@@ -56,4 +56,4 @@ const useForm = (initialValues, validate) => {
   };
 };
 
-export default useForm; 
+export default useForm;

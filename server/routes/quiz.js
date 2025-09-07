@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { body } = require('express-validator');
 const { authenticate, requireRole } = require('../middleware/auth');
 const {
   createQuiz,
@@ -11,7 +10,7 @@ const {
   getQuizzesByTeacher,
   getAvailableQuizzes,
   submitQuiz,
-  getQuizResults
+  getQuizResults,
 } = require('../controllers/quizController');
 
 // Debug middleware for quiz routes
@@ -19,7 +18,7 @@ router.use((req, res, next) => {
   console.log('📝 Quiz API Request:', {
     method: req.method,
     url: req.originalUrl,
-    userId: req.user?.id
+    userId: req.user?.id,
   });
   next();
 });
@@ -36,7 +35,11 @@ router.get('/teacher', requireRole('teacher'), getQuizzesByTeacher);
 // Student routes
 router.get('/available', requireRole('student'), getAvailableQuizzes);
 router.post('/:id/submit', requireRole('student'), submitQuiz);
-router.get('/:id/results/:userId', requireRole(['student', 'teacher']), getQuizResults);
+router.get(
+  '/:id/results/:userId',
+  requireRole(['student', 'teacher']),
+  getQuizResults
+);
 
 // Shared routes
 router.get('/:id', requireRole(['teacher', 'student']), getQuizById);
@@ -44,4 +47,4 @@ router.get('/:id', requireRole(['teacher', 'student']), getQuizById);
 // Admin routes
 router.get('/', requireRole('admin'), getAllQuizzes);
 
-module.exports = router; 
+module.exports = router;

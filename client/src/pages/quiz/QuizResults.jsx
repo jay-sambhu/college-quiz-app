@@ -38,7 +38,9 @@ const QuizResults = () => {
         setResults(resultsData.data);
       } catch (error) {
         console.error('Error fetching quiz results:', error);
-        setError(error.response?.data?.message || 'Failed to load quiz results');
+        setError(
+          error.response?.data?.message || 'Failed to load quiz results'
+        );
         toast.error('Failed to load quiz results');
       } finally {
         setLoading(false);
@@ -50,7 +52,12 @@ const QuizResults = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -106,7 +113,10 @@ const QuizResults = () => {
           <Typography variant="h4" gutterBottom>
             Quiz Results: {quiz.title}
           </Typography>
-          <Typography variant="h5" color={passed ? 'success.main' : 'error.main'}>
+          <Typography
+            variant="h5"
+            color={passed ? 'success.main' : 'error.main'}
+          >
             Score: {score.toFixed(1)}% ({passed ? 'Passed' : 'Failed'})
           </Typography>
           <Typography variant="body1" paragraph>
@@ -134,9 +144,11 @@ const QuizResults = () => {
                               : 'error.main'
                           }
                         >
-                          Your answer: {question.options[results.answers[index]]}
+                          Your answer:{' '}
+                          {question.options[results.answers[index]]}
                           <br />
-                          Correct answer: {question.options[question.correctOption]}
+                          Correct answer:{' '}
+                          {question.options[question.correctOption]}
                         </Typography>
                       </>
                     }
@@ -161,4 +173,4 @@ const QuizResults = () => {
   );
 };
 
-export default QuizResults; 
+export default QuizResults;

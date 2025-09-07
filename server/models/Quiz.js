@@ -60,7 +60,7 @@ class Quiz extends BaseModel {
 
     const quiz = {
       ...results[0],
-      questions: []
+      questions: [],
     };
 
     results.forEach(row => {
@@ -72,7 +72,7 @@ class Quiz extends BaseModel {
           optionB: row.optionB,
           optionC: row.optionC,
           optionD: row.optionD,
-          correctOption: row.correctOption
+          correctOption: row.correctOption,
         });
       }
     });
@@ -105,15 +105,18 @@ class Quiz extends BaseModel {
       data.teacherId,
       data.timeLimit,
       data.passingScore,
-      data.isPublished ? 1 : 0
+      data.isPublished ? 1 : 0,
     ]);
     return this.findById(result.insertId);
   }
 
   async update(id, data) {
     const allowedFields = [
-      'title', 'description', 'time_limit', 
-      'passing_score', 'is_published'
+      'title',
+      'description',
+      'time_limit',
+      'passing_score',
+      'is_published',
     ];
     const updates = [];
     const values = [];
@@ -156,4 +159,4 @@ class Quiz extends BaseModel {
   }
 }
 
-module.exports = new Quiz(); 
+module.exports = new Quiz();

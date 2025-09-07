@@ -9,7 +9,7 @@ import {
   TextField,
   Button,
   Link,
-  Paper
+  Paper,
 } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
  */
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().required('Password is required')
+  password: Yup.string().required('Password is required'),
 });
 
 const Login = () => {
@@ -52,7 +52,14 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Box
+        sx={{
+          mt: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Typography component="h1" variant="h5" align="center" gutterBottom>
             Login
@@ -106,4 +113,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;

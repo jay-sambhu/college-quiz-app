@@ -16,7 +16,11 @@ import {
   Delete as DeleteIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import { getTeacherNotes, getStudentNotes, apiDeleteNote as deleteNote } from '../../services/api';
+import {
+  getTeacherNotes,
+  getStudentNotes,
+  apiDeleteNote as deleteNote,
+} from '../../services/api';
 
 const NotesList = () => {
   const navigate = useNavigate();
@@ -28,7 +32,8 @@ const NotesList = () => {
     const fetchNotes = async () => {
       try {
         // Select the appropriate API function based on user role
-        const getNotesFunc = user.role === 'teacher' ? getTeacherNotes : getStudentNotes;
+        const getNotesFunc =
+          user.role === 'teacher' ? getTeacherNotes : getStudentNotes;
         const userNotes = await getNotesFunc();
         setNotes(userNotes);
       } catch (error) {
@@ -41,11 +46,11 @@ const NotesList = () => {
     fetchNotes();
   }, [user.role]);
 
-  const handleDelete = async (noteId) => {
+  const handleDelete = async noteId => {
     if (window.confirm('Are you sure you want to delete this note?')) {
       try {
         await deleteNote(noteId);
-        setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
       } catch (error) {
         console.error('Error deleting note:', error);
       }
@@ -54,7 +59,12 @@ const NotesList = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -75,7 +85,7 @@ const NotesList = () => {
         </Box>
 
         <Grid container spacing={3}>
-          {notes.map((note) => (
+          {notes.map(note => (
             <Grid item xs={12} sm={6} md={4} key={note.id}>
               <Paper elevation={3} sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>
@@ -84,7 +94,13 @@ const NotesList = () => {
                 <Typography variant="body2" color="text.secondary" paragraph>
                   {note.content}
                 </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mt: 2,
+                  }}
+                >
                   <Typography variant="caption" color="text.secondary">
                     Created: {new Date(note.created_at).toLocaleDateString()}
                   </Typography>

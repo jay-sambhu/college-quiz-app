@@ -4,7 +4,7 @@ import {
   apiRegister,
   getCurrentUser,
   updateProfile as apiUpdateProfile,
-  changePassword as apiChangePassword
+  changePassword as apiChangePassword,
 } from '../services/api';
 
 /**
@@ -40,17 +40,17 @@ export const AuthProvider = ({ children }) => {
    * Perform login and set user state.
    * @param {Object} credentials
    */
-  const login = async (credentials) => {
+  const login = async credentials => {
     setError(null);
     try {
       const response = await apiLogin(credentials);
-      
+
       // Extract data from response
       const { token, user } = response.data.data;
-      
+
       localStorage.setItem('token', token);
       setUser(user);
-      
+
       return { success: true, user };
     } catch (err) {
       console.error('Login error:', err);
@@ -64,39 +64,42 @@ export const AuthProvider = ({ children }) => {
    * Register a new user and set state.
    * @param {Object} userData
    */
-  const register = async (userData) => {
+  const register = async userData => {
     console.log('🔍 AuthContext: Starting user registration process', {
       username: userData.username,
       email: userData.email,
-      role: userData.role
+      role: userData.role,
     });
-    
+
     setError(null);
-    
+
     try {
       console.log('📤 AuthContext: Sending registration API request...');
       const response = await apiRegister(userData);
-      console.log('📥 AuthContext: Registration response received:', response.data);
-      
+      console.log(
+        '📥 AuthContext: Registration response received:',
+        response.data
+      );
+
       // Extract data from response
       const { token, user } = response.data.data;
       console.log('🔑 AuthContext: Extracted auth data:', user);
-      
+
       console.log('💾 AuthContext: Storing token in localStorage...');
       localStorage.setItem('token', token);
-      
+
       console.log('👤 AuthContext: Setting user state...');
       setUser(user);
-      
+
       console.log('✅ AuthContext: Registration complete and successful');
       return { success: true, user };
     } catch (err) {
       console.error('❌ AuthContext: Registration error:', err);
       console.error('❌ AuthContext: Error response:', err.response?.data);
-      
+
       const msg = err.response?.data?.message || 'Registration failed';
       console.error('❌ AuthContext: Setting error message:', msg);
-      
+
       setError(msg);
       return { success: false, error: msg };
     }
@@ -114,7 +117,7 @@ export const AuthProvider = ({ children }) => {
    * Update user profile.
    * @param {Object} profileData
    */
-  const updateProfile = async (profileData) => {
+  const updateProfile = async profileData => {
     try {
       const response = await apiUpdateProfile(profileData);
       setUser(response.data);
@@ -128,7 +131,7 @@ export const AuthProvider = ({ children }) => {
    * Change user password.
    * @param {Object} passwords { oldPassword, newPassword }
    */
-  const changePassword = async (passwords) => {
+  const changePassword = async passwords => {
     try {
       await apiChangePassword(passwords);
       return { success: true };
@@ -145,7 +148,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateProfile,
-    changePassword
+    changePassword,
   };
 
   return (
@@ -153,4 +156,4 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
-}; 
+};

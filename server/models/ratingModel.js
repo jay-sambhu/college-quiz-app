@@ -27,8 +27,8 @@ async function createRating({ teacher_id, student_id, rating, comment }) {
 async function updateRating(id, fields) {
   const keys = Object.keys(fields);
   if (!keys.length) return 0;
-  const setClause = keys.map((k) => `${k} = ?`).join(', ');
-  const params = keys.map((k) => fields[k]);
+  const setClause = keys.map(k => `${k} = ?`).join(', ');
+  const params = keys.map(k => fields[k]);
   params.push(id);
 
   const result = await query(
@@ -44,10 +44,7 @@ async function updateRating(id, fields) {
  * @returns {Promise<number>} Rows affected
  */
 async function deleteRating(id) {
-  const result = await query(
-    `DELETE FROM teacher_ratings WHERE id = ?`,
-    [id]
-  );
+  const result = await query(`DELETE FROM teacher_ratings WHERE id = ?`, [id]);
   return result.affectedRows || 0;
 }
 
@@ -80,5 +77,5 @@ module.exports = {
   updateRating,
   deleteRating,
   findByTeacherId,
-  findAllRatings
-}; 
+  findAllRatings,
+};

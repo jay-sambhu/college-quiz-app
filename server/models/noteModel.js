@@ -27,8 +27,8 @@ async function createNote({ title, content, user_id, is_public }) {
 async function updateNote(id, fields) {
   const keys = Object.keys(fields);
   if (!keys.length) return 0;
-  const setClause = keys.map((k) => `${k} = ?`).join(', ');
-  const params = keys.map((k) => fields[k]);
+  const setClause = keys.map(k => `${k} = ?`).join(', ');
+  const params = keys.map(k => fields[k]);
   params.push(id);
 
   const result = await query(
@@ -44,10 +44,7 @@ async function updateNote(id, fields) {
  * @returns {Promise<number>} Rows affected
  */
 async function deleteNote(id) {
-  const result = await query(
-    `DELETE FROM notes WHERE id = ?`,
-    [id]
-  );
+  const result = await query(`DELETE FROM notes WHERE id = ?`, [id]);
   return result.affectedRows || 0;
 }
 
@@ -142,5 +139,5 @@ module.exports = {
   findAll,
   shareNote,
   unshareNote,
-  findNoteAccess
-}; 
+  findNoteAccess,
+};

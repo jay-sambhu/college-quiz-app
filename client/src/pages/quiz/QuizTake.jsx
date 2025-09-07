@@ -22,7 +22,11 @@ const QuizTake = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { execute: fetchQuiz, data: quizRes, loading: loadingQuiz } = useApi(getStudentQuiz);
+  const {
+    execute: fetchQuiz,
+    data: quizRes,
+    loading: loadingQuiz,
+  } = useApi(getStudentQuiz);
   const { execute: doSubmit, loading: submitting } = useApi(submitQuiz);
 
   const quiz = quizRes?.data;
@@ -39,14 +43,13 @@ const QuizTake = () => {
     previousQuestion,
   } = useQuizProgress(questions);
 
-  const {
-    timeLeft,
-    formattedTime,
-    startTimer,
-  } = useQuizTimer(quiz?.timeLimit || 0, () => {
-    toast.info('Time is up! Submitting quiz...');
-    handleSubmit();
-  });
+  const { timeLeft, formattedTime, startTimer } = useQuizTimer(
+    quiz?.timeLimit || 0,
+    () => {
+      toast.info('Time is up! Submitting quiz...');
+      handleSubmit();
+    }
+  );
 
   useEffect(() => {
     fetchQuiz(id)
@@ -59,10 +62,12 @@ const QuizTake = () => {
 
   const handleSubmit = async () => {
     try {
-      const answersArray = Object.entries(answers).map(([questionId, answer]) => ({
-        question_id: questionId,
-        selected_option: answer,
-      }));
+      const answersArray = Object.entries(answers).map(
+        ([questionId, answer]) => ({
+          question_id: questionId,
+          selected_option: answer,
+        })
+      );
       await doSubmit(id, answersArray, quiz.timeLimit * 60 - timeLeft);
       toast.success('Quiz submitted successfully');
       navigate(`/quiz/${id}/results`);
@@ -107,7 +112,7 @@ const QuizTake = () => {
         <FormControl component="fieldset">
           <RadioGroup
             value={answers[currentQuestion?.id] || ''}
-            onChange={(e) => handleAnswer(currentQuestion.id, e.target.value)}
+            onChange={e => handleAnswer(currentQuestion.id, e.target.value)}
           >
             {currentQuestion?.options.map((option, idx) => (
               <FormControlLabel
@@ -150,4 +155,4 @@ const QuizTake = () => {
   );
 };
 
-export default QuizTake; 
+export default QuizTake;

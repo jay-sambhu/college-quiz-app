@@ -33,5 +33,5 @@ async function findBySubmission(submissionId) {
 
 module.exports = {
   createAnswer,
-  findBySubmission
-}; 
+  findBySubmission,
+};

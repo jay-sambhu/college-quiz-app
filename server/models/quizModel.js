@@ -11,7 +11,14 @@ const { query } = require('../utils/db');
  * @param {boolean} quiz.is_published
  * @returns {Promise<number>} The inserted quiz ID.
  */
-async function createQuiz({ title, description, teacher_id, time_limit, passing_score, is_published }) {
+async function createQuiz({
+  title,
+  description,
+  teacher_id,
+  time_limit,
+  passing_score,
+  is_published,
+}) {
   const result = await query(
     `INSERT INTO quizzes (title, description, teacher_id, time_limit, passing_score, is_published)
      VALUES (?, ?, ?, ?, ?, ?)`,
@@ -30,8 +37,8 @@ async function updateQuiz(id, fields) {
   const keys = Object.keys(fields);
   if (!keys.length) return 0;
 
-  const setClause = keys.map((key) => `${key} = ?`).join(', ');
-  const params = keys.map((key) => fields[key]);
+  const setClause = keys.map(key => `${key} = ?`).join(', ');
+  const params = keys.map(key => fields[key]);
   params.push(id);
 
   const result = await query(
@@ -47,10 +54,7 @@ async function updateQuiz(id, fields) {
  * @returns {Promise<number>} Rows affected.
  */
 async function deleteQuiz(id) {
-  const result = await query(
-    `DELETE FROM quizzes WHERE id = ?`,
-    [id]
-  );
+  const result = await query(`DELETE FROM quizzes WHERE id = ?`, [id]);
   return result.affectedRows || 0;
 }
 
@@ -60,10 +64,7 @@ async function deleteQuiz(id) {
  * @returns {Promise<Object|undefined>} Quiz record.
  */
 async function findById(id) {
-  const rows = await query(
-    `SELECT * FROM quizzes WHERE id = ?`,
-    [id]
-  );
+  const rows = await query(`SELECT * FROM quizzes WHERE id = ?`, [id]);
   return rows[0];
 }
 
@@ -81,10 +82,7 @@ async function findAll() {
  * @returns {Promise<Array<Object>>}
  */
 async function findByTeacher(teacherId) {
-  return query(
-    `SELECT * FROM quizzes WHERE teacher_id = ?`,
-    [teacherId]
-  );
+  return query(`SELECT * FROM quizzes WHERE teacher_id = ?`, [teacherId]);
 }
 
 /**
@@ -92,9 +90,7 @@ async function findByTeacher(teacherId) {
  * @returns {Promise<Array<Object>>}
  */
 async function findAvailable() {
-  return query(
-    `SELECT * FROM quizzes WHERE is_published = 1`
-  );
+  return query(`SELECT * FROM quizzes WHERE is_published = 1`);
 }
 
 module.exports = {
@@ -104,5 +100,5 @@ module.exports = {
   findById,
   findAll,
   findByTeacher,
-  findAvailable
-}; 
+  findAvailable,
+};

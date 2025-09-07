@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const useQuizProgress = (questions) => {
+const useQuizProgress = questions => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isComplete, setIsComplete] = useState(false);
@@ -8,7 +8,7 @@ const useQuizProgress = (questions) => {
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleAnswer = useCallback((questionId, answer) => {
-    setAnswers((prev) => ({
+    setAnswers(prev => ({
       ...prev,
       [questionId]: answer,
     }));
@@ -16,7 +16,7 @@ const useQuizProgress = (questions) => {
 
   const nextQuestion = useCallback(() => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      setCurrentQuestionIndex(prev => prev + 1);
     } else {
       setIsComplete(true);
     }
@@ -24,7 +24,7 @@ const useQuizProgress = (questions) => {
 
   const previousQuestion = useCallback(() => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
+      setCurrentQuestionIndex(prev => prev - 1);
     }
   }, [currentQuestionIndex]);
 
@@ -49,4 +49,4 @@ const useQuizProgress = (questions) => {
   };
 };
 
-export default useQuizProgress; 
+export default useQuizProgress;

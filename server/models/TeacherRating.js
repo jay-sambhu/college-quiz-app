@@ -52,7 +52,7 @@ class TeacherRating extends BaseModel {
   async findByStudentAndTeacher(studentId, teacherId) {
     return this.findOne({
       student_id: studentId,
-      teacher_id: teacherId
+      teacher_id: teacherId,
     });
   }
 
@@ -61,16 +61,16 @@ class TeacherRating extends BaseModel {
    */
   async createOrUpdate(data) {
     const { student_id, teacher_id, rating, comment } = data;
-    
+
     // Check if rating exists
     const existing = await this.findByStudentAndTeacher(student_id, teacher_id);
-    
+
     if (existing) {
       // Update existing rating
       return this.update(existing.id, {
         rating,
         comment,
-        updated_at: new Date()
+        updated_at: new Date(),
       });
     } else {
       // Create new rating
@@ -80,7 +80,7 @@ class TeacherRating extends BaseModel {
         rating,
         comment,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
       });
     }
   }
@@ -107,7 +107,7 @@ class TeacherRating extends BaseModel {
       data.teacherId,
       data.studentId,
       data.rating,
-      data.comment
+      data.comment,
     ]);
     return this.findById(result.insertId);
   }
@@ -142,10 +142,11 @@ class TeacherRating extends BaseModel {
       return {
         count: 0,
         average: 0,
-        distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+        distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       };
     }
-    const average = ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
+    const average =
+      ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
     const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     ratings.forEach(r => {
       distribution[r.rating] = (distribution[r.rating] || 0) + 1;
@@ -153,9 +154,9 @@ class TeacherRating extends BaseModel {
     return {
       count: ratings.length,
       average: parseFloat(average.toFixed(1)),
-      distribution
+      distribution,
     };
   }
 }
 
-module.exports = new TeacherRating(); 
+module.exports = new TeacherRating();

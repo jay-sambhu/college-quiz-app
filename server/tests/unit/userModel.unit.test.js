@@ -41,4 +41,4 @@ describe('User Model Unit Tests', () => {
     expect(db.query).toHaveBeenCalledWith(expect.any(String), [9]);
     expect(result).toBe(2);
   });
-}); 
+});

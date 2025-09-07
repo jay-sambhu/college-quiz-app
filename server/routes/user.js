@@ -7,7 +7,7 @@ const {
   updateUser,
   deleteUser,
   getTeacherList,
-  getStudentList
+  getStudentList,
 } = require('../controllers/userController');
 
 // Protected routes - All require authentication
@@ -27,4 +27,4 @@ router.get('/teachers', requireRole(['admin', 'student']), getTeacherList);
 router.get('/:id', requireRole(['admin', 'teacher']), getUserById);
 router.put('/:id', requireRole('admin'), updateUser);
 
-module.exports = router; 
+module.exports = router;

@@ -10,7 +10,7 @@ import {
   Button,
   Paper,
   Grid,
-  Link
+  Link,
 } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -21,11 +21,15 @@ import { toast } from 'react-toastify';
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Password too short').required('Password is required'),
+  password: Yup.string()
+    .min(6, 'Password too short')
+    .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
-  role: Yup.string().oneOf(['student', 'teacher'], 'Invalid role').required('Role is required')
+  role: Yup.string()
+    .oneOf(['student', 'teacher'], 'Invalid role')
+    .required('Role is required'),
 });
 
 /**
@@ -38,7 +42,7 @@ const Register = () => {
   // Add effect to log when component mounts
   useEffect(() => {
     console.log('🔄 Register component mounted');
-    
+
     return () => {
       console.log('🔄 Register component unmounted');
     };
@@ -49,38 +53,44 @@ const Register = () => {
    * @param {{username:string,email:string,password:string,confirmPassword:string,role:string}} values
    * @param {object} formikHelpers
    */
-  const handleSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
-    console.log('🚀 Starting registration process with values:', { 
-      username: values.username, 
-      email: values.email, 
-      role: values.role 
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setErrors, validateForm }
+  ) => {
+    console.log('🚀 Starting registration process with values:', {
+      username: values.username,
+      email: values.email,
+      role: values.role,
     });
-    
+
     // First, validate the form manually to double check
     const errors = await validateForm(values);
-    console.log('🔍 Form validation results:', { 
+    console.log('🔍 Form validation results:', {
       isValid: Object.keys(errors).length === 0,
-      errors
+      errors,
     });
-    
+
     if (Object.keys(errors).length > 0) {
       console.error('❌ Form validation failed:', errors);
       setErrors(errors);
       setSubmitting(false);
       return;
     }
-    
+
     try {
       const { username, email, password, role } = values;
       console.log('📤 Sending registration request to server...');
-      
+
       const result = await register({ username, email, password, role });
       console.log('📥 Received registration response:', result);
-      
+
       if (result.success) {
-        console.log('✅ Registration successful!', { userId: result.user?.id, role: result.user?.role });
+        console.log('✅ Registration successful!', {
+          userId: result.user?.id,
+          role: result.user?.role,
+        });
         toast.success('Registration successful!');
-        
+
         console.log('🔄 Navigating to dashboard:', `/${role}`);
         navigate(`/${role}`);
       } else {
@@ -106,7 +116,13 @@ const Register = () => {
             Register
           </Typography>
           <Formik
-            initialValues={{ username: '', email: '', password: '', confirmPassword: '', role: 'student' }}
+            initialValues={{
+              username: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+              role: 'student',
+            }}
             validationSchema={RegisterSchema}
             onSubmit={handleSubmit}
           >
@@ -152,8 +168,13 @@ const Register = () => {
                       label="Confirm Password"
                       type="password"
                       fullWidth
-                      error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                      helperText={touched.confirmPassword && errors.confirmPassword}
+                      error={
+                        touched.confirmPassword &&
+                        Boolean(errors.confirmPassword)
+                      }
+                      helperText={
+                        touched.confirmPassword && errors.confirmPassword
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -177,17 +198,17 @@ const Register = () => {
                     </Grid>
                   )}
                   <Grid item xs={12}>
-                    <Button 
-                      type="submit" 
-                      variant="contained" 
-                      fullWidth 
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
                       disabled={isSubmitting}
                       onClick={() => {
                         console.log('🖱️ Register button clicked');
                         validateForm().then(errors => {
-                          console.log('🔍 Pre-submission validation:', { 
+                          console.log('🔍 Pre-submission validation:', {
                             isValid: Object.keys(errors).length === 0,
-                            errors 
+                            errors,
                           });
                         });
                       }}
@@ -215,4 +236,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

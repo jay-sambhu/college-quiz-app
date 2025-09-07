@@ -37,5 +37,5 @@ async function findByQuizAndUser(quizId, userId) {
 
 module.exports = {
   create,
-  findByQuizAndUser
-}; 
+  findByQuizAndUser,
+};

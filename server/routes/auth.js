@@ -11,8 +11,8 @@ router.use((req, res, next) => {
     body: req.body,
     headers: {
       'content-type': req.headers['content-type'],
-      authorization: req.headers.authorization ? 'Present' : 'Not present'
-    }
+      authorization: req.headers.authorization ? 'Present' : 'Not present',
+    },
   });
   next();
 });
@@ -26,4 +26,4 @@ router.get('/me', authenticate, authController.getCurrentUser);
 router.put('/profile', authenticate, authController.updateProfile);
 router.put('/change-password', authenticate, authController.changePassword);
 
-module.exports = router; 
+module.exports = router;

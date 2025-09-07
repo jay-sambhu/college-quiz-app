@@ -51,12 +51,14 @@ const Layout = () => {
     {
       text: 'Subjects',
       icon: <DashboardIcon />,
-      onClick: () => navigate(user.role === 'teacher' ? '/teacher' : '/student'),
+      onClick: () =>
+        navigate(user.role === 'teacher' ? '/teacher' : '/student'),
     },
     {
       text: 'Quizzes',
       icon: <QuizIcon />,
-      onClick: () => navigate(user.role === 'teacher' ? '/quiz/create' : '/student'),
+      onClick: () =>
+        navigate(user.role === 'teacher' ? '/quiz/create' : '/student'),
     },
     {
       text: 'Notes',
@@ -69,14 +71,16 @@ const Layout = () => {
     <div>
       <Toolbar />
       <List>
-        {menuItems.map((item) => (
+        {menuItems.map(item => (
           <ListItem button key={item.text} onClick={item.onClick}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
         <ListItem button onClick={handleLogout}>
-          <ListItemIcon><LogoutIcon /></ListItemIcon>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
           <ListItemText primary="Logout" />
         </ListItem>
       </List>
@@ -121,7 +125,10 @@ const Layout = () => {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -130,7 +137,10 @@ const Layout = () => {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
           open
         >
@@ -152,4 +162,4 @@ const Layout = () => {
   );
 };
 
-export default Layout; 
+export default Layout;

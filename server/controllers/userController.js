@@ -46,7 +46,9 @@ exports.updateUser = async (req, res, next) => {
     const fields = req.body;
     const affected = await User.update(id, fields);
     if (!affected) {
-      return res.status(404).json({ message: 'User not found or no changes made' });
+      return res
+        .status(404)
+        .json({ message: 'User not found or no changes made' });
     }
     const updatedUser = await User.findById(id);
     res.json(updatedUser);
@@ -102,4 +104,4 @@ exports.getStudentList = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}; 
+};

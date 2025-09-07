@@ -6,15 +6,13 @@ describe('Auth Integration Tests', () => {
     username: 'testuser',
     email: 'test@example.com',
     password: 'password123',
-    role: 'student'
+    role: 'student',
   };
 
   let token;
 
   it('should register a new user', async () => {
-    const res = await request(app)
-      .post('/api/auth/register')
-      .send(testUser);
+    const res = await request(app).post('/api/auth/register').send(testUser);
 
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty('token');
@@ -22,9 +20,7 @@ describe('Auth Integration Tests', () => {
   });
 
   it('should not register with existing email', async () => {
-    const res = await request(app)
-      .post('/api/auth/register')
-      .send(testUser);
+    const res = await request(app).post('/api/auth/register').send(testUser);
 
     expect(res.statusCode).toBe(400);
   });
@@ -47,8 +43,7 @@ describe('Auth Integration Tests', () => {
   });
 
   it('should deny access to protected route without token', async () => {
-    const res = await request(app)
-      .get('/api/auth/me');
+    const res = await request(app).get('/api/auth/me');
 
     expect(res.statusCode).toBe(401);
   });
@@ -61,4 +56,4 @@ describe('Auth Integration Tests', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('email', testUser.email);
   });
-}); 
+});

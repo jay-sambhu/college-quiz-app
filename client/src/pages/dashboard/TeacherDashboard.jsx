@@ -7,11 +7,15 @@ import {
   Paper,
   Grid,
   Button,
-  CircularProgress
+  CircularProgress,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import { getMySubjects, getTeacherQuizzes, getTeacherNotes } from '../../services/api';
+import {
+  getMySubjects,
+  getTeacherQuizzes,
+  getTeacherNotes,
+} from '../../services/api';
 import useApi from '../../hooks/useApi';
 
 /**
@@ -22,9 +26,21 @@ const TeacherDashboard = () => {
   const { user } = useAuth();
 
   // Hooks to fetch data
-  const { execute: loadSubjects, data: subjects, loading: loadingSubjects } = useApi(getMySubjects);
-  const { execute: loadQuizzes, data: quizzes, loading: loadingQuizzes } = useApi(getTeacherQuizzes);
-  const { execute: loadNotes, data: notes, loading: loadingNotes } = useApi(getTeacherNotes);
+  const {
+    execute: loadSubjects,
+    data: subjects,
+    loading: loadingSubjects,
+  } = useApi(getMySubjects);
+  const {
+    execute: loadQuizzes,
+    data: quizzes,
+    loading: loadingQuizzes,
+  } = useApi(getTeacherQuizzes);
+  const {
+    execute: loadNotes,
+    data: notes,
+    loading: loadingNotes,
+  } = useApi(getTeacherNotes);
 
   useEffect(() => {
     loadSubjects();
@@ -36,7 +52,12 @@ const TeacherDashboard = () => {
   const loading = loadingSubjects || loadingQuizzes || loadingNotes;
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -57,13 +78,15 @@ const TeacherDashboard = () => {
           </Button>
         </Box>
         <Grid container spacing={3} sx={{ mb: 6 }}>
-          {subjects?.map((sub) => (
+          {subjects?.map(sub => (
             <Grid item key={sub.id} xs={12} sm={6} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h6">{sub.name}</Typography>
                 <Button
                   size="small"
-                  onClick={() => navigate(`/teacher/subjects/${sub.id}/questions`)}
+                  onClick={() =>
+                    navigate(`/teacher/subjects/${sub.id}/questions`)
+                  }
                 >
                   Manage Questions
                 </Button>
@@ -84,7 +107,7 @@ const TeacherDashboard = () => {
           </Button>
         </Box>
         <Grid container spacing={3} sx={{ mb: 6 }}>
-          {quizzes?.map((quiz) => (
+          {quizzes?.map(quiz => (
             <Grid item key={quiz.id} xs={12} sm={6} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h6">{quiz.title}</Typography>
@@ -111,7 +134,7 @@ const TeacherDashboard = () => {
           </Button>
         </Box>
         <Grid container spacing={3}>
-          {notes?.map((note) => (
+          {notes?.map(note => (
             <Grid item key={note.id} xs={12} sm={6} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h6">{note.title}</Typography>

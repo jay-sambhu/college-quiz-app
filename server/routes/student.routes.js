@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   console.log('🧑‍🎓 Student API Request:', {
     method: req.method,
     url: req.originalUrl,
-    userId: req.user?.userId
+    userId: req.user?.userId,
   });
   next();
 });
@@ -23,4 +23,4 @@ router.post('/quizzes/:quizId/submit', studentController.submitQuiz);
 router.get('/quizzes/history', studentController.getQuizHistory);
 router.get('/stats', studentController.getStudentStats);
 
-module.exports = router; 
+module.exports = router;

@@ -17,7 +17,7 @@ const noteService = {
    * @param {number} id - Note ID
    * @returns {Promise<Object|null>} Note object or null
    */
-  findById: async (id) => {
+  findById: async id => {
     return Note.findByIdWithDetails(id);
   },
 
@@ -26,7 +26,7 @@ const noteService = {
    * @param {number} userId - User ID
    * @returns {Promise<Array>} Array of notes
    */
-  findByUser: async (userId) => {
+  findByUser: async userId => {
     return Note.findByUser(userId);
   },
 
@@ -35,7 +35,7 @@ const noteService = {
    * @param {number} studentId - Student ID
    * @returns {Promise<Array>} Array of notes
    */
-  findAccessibleByStudent: async (studentId) => {
+  findAccessibleByStudent: async studentId => {
     return Note.findAccessibleByStudent(studentId);
   },
 
@@ -44,7 +44,7 @@ const noteService = {
    * @param {Object} data - Note data
    * @returns {Promise<Object>} Created note
    */
-  create: async (data) => {
+  create: async data => {
     return Note.create(data);
   },
 
@@ -63,7 +63,7 @@ const noteService = {
    * @param {number} id - Note ID
    * @returns {Promise<Object>} Deleted note
    */
-  delete: async (id) => {
+  delete: async id => {
     return Note.delete(id);
   },
 
@@ -85,7 +85,7 @@ const noteService = {
    */
   unshareWithStudent: async (noteId, studentId) => {
     return Note.unshareWithStudent(noteId, studentId);
-  }
+  },
 };
 
-module.exports = noteService; 
+module.exports = noteService;

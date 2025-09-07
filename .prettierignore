@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Generated files
+*.generated.*
+generated/
+**/generated/**
+
+# Logs
+*.log
+
+# Environment files
+.env*
+!.env.example
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Cache directories
+.cache/
+.nyc_output/

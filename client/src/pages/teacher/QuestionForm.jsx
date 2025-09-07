@@ -1,10 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Container, Box, Typography, Paper, Grid, Button, CircularProgress } from '@mui/material';
+import {
+  Container,
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  CircularProgress,
+} from '@mui/material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useApi from '../../hooks/useApi';
-import { getQuestion, createQuestion, updateQuestion } from '../../services/api';
+import {
+  getQuestion,
+  createQuestion,
+  updateQuestion,
+} from '../../services/api';
 
 /**
  * Validation schema for question form.
@@ -15,7 +27,9 @@ const QuestionSchema = Yup.object().shape({
   option_b: Yup.string().required('Option B is required'),
   option_c: Yup.string().required('Option C is required'),
   option_d: Yup.string().required('Option D is required'),
-  correct_option: Yup.string().oneOf(['a','b','c','d'], 'Select correct option').required()
+  correct_option: Yup.string()
+    .oneOf(['a', 'b', 'c', 'd'], 'Select correct option')
+    .required(),
 });
 
 /**
@@ -29,13 +43,14 @@ const QuestionForm = () => {
   const isEdit = Boolean(id);
 
   // Fetch existing question if editing
-  const { execute: fetchQuestion, data: question, loading: loadingQ } = useApi(
-    () => getQuestion(id),
-    { manual: true }
-  );
+  const {
+    execute: fetchQuestion,
+    data: question,
+    loading: loadingQ,
+  } = useApi(() => getQuestion(id), { manual: true });
   // Save API call
-  const { execute: saveQuestion, loading: saving } = useApi(
-    (values) => isEdit ? updateQuestion(id, values) : createQuestion(subjectId, values)
+  const { execute: saveQuestion, loading: saving } = useApi(values =>
+    isEdit ? updateQuestion(id, values) : createQuestion(subjectId, values)
   );
 
   useEffect(() => {
@@ -46,16 +61,24 @@ const QuestionForm = () => {
     return <CircularProgress />;
   }
 
-  const initialValues = isEdit && question ? {
-    text: question.text,
-    option_a: question.option_a,
-    option_b: question.option_b,
-    option_c: question.option_c,
-    option_d: question.option_d,
-    correct_option: question.correct_option
-  } : {
-    text: '', option_a: '', option_b: '', option_c: '', option_d: '', correct_option: 'a'
-  };
+  const initialValues =
+    isEdit && question
+      ? {
+          text: question.text,
+          option_a: question.option_a,
+          option_b: question.option_b,
+          option_c: question.option_c,
+          option_d: question.option_d,
+          correct_option: question.correct_option,
+        }
+      : {
+          text: '',
+          option_a: '',
+          option_b: '',
+          option_c: '',
+          option_d: '',
+          correct_option: 'a',
+        };
 
   return (
     <Container maxWidth="sm">
@@ -158,4 +181,4 @@ const QuestionForm = () => {
   );
 };
 
-export default QuestionForm; 
+export default QuestionForm;
